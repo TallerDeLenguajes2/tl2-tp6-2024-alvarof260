@@ -1,56 +1,60 @@
-public class Presupuesto
+
+namespace TP6MVC.Models
 {
-    private int idPresupuesto;
-    private string nombreDestinario;
-    private List<PresupuestoDetalle> detalle = new List<PresupuestoDetalle>(); // Inicialización de la lista
-    private const double IVA = 0.21;
-
-    public int IdPresupuesto { get => idPresupuesto; set => idPresupuesto = value; }
-    public string NombreDestinario { get => nombreDestinario; set => nombreDestinario = value; }
-    public List<PresupuestoDetalle> Detalle { get => detalle; set => detalle = value; }
-
-    public Presupuesto(int idPresupuesto, string nombreDestinario)
+    public class Presupuesto
     {
-        this.IdPresupuesto = idPresupuesto;
-        this.NombreDestinario = nombreDestinario;
-    }
+        private int idPresupuesto;
+        private string nombreDestinario;
+        private List<PresupuestoDetalle> detalle = new List<PresupuestoDetalle>(); // Inicialización de la lista
+        private const double IVA = 0.21;
 
-    // Método para obtener el monto sin IVA
-    public decimal CalcularMontoSinIva()
-    {
-        decimal monto = 0;
+        public int IdPresupuesto { get => idPresupuesto; set => idPresupuesto = value; }
+        public string NombreDestinario { get => nombreDestinario; set => nombreDestinario = value; }
+        public List<PresupuestoDetalle> Detalle { get => detalle; set => detalle = value; }
 
-        foreach (var presupuesto in Detalle)
+        public Presupuesto(int idPresupuesto, string nombreDestinario)
         {
-            monto += presupuesto.Producto.Precio * presupuesto.Cantidad;
+            this.IdPresupuesto = idPresupuesto;
+            this.NombreDestinario = nombreDestinario;
         }
 
-        return monto;
-    }
-
-    // Método para obtener el monto con IVA
-    public decimal CalcularMontoConIva()
-    {
-        decimal montoConIva = 0;
-
-        foreach (var presupuestoDetalle in Detalle)
+        // Método para obtener el monto sin IVA
+        public decimal CalcularMontoSinIva()
         {
-            decimal precio = presupuestoDetalle.Producto.Precio * presupuestoDetalle.Cantidad;
-            montoConIva += precio * (1 + (decimal)IVA);
+            decimal monto = 0;
+
+            foreach (var presupuesto in Detalle)
+            {
+                monto += presupuesto.Producto.Precio * presupuesto.Cantidad;
+            }
+
+            return monto;
         }
 
-        return montoConIva;
-    }
-
-    // Método para obtener la cantidad total de productos
-    public int CalcularCantidadProductos()
-    {
-        int cantidad = 0;
-        foreach (var presupuesto in Detalle)
+        // Método para obtener el monto con IVA
+        public decimal CalcularMontoConIva()
         {
-            cantidad += presupuesto.Cantidad;
+            decimal montoConIva = 0;
+
+            foreach (var presupuestoDetalle in Detalle)
+            {
+                decimal precio = presupuestoDetalle.Producto.Precio * presupuestoDetalle.Cantidad;
+                montoConIva += precio * (1 + (decimal)IVA);
+            }
+
+            return montoConIva;
         }
 
-        return cantidad;
+        // Método para obtener la cantidad total de productos
+        public int CalcularCantidadProductos()
+        {
+            int cantidad = 0;
+            foreach (var presupuesto in Detalle)
+            {
+                cantidad += presupuesto.Cantidad;
+            }
+
+            return cantidad;
+        }
     }
 }
