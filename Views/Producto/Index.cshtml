@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+@using TP6MVC.Models;
+@model List<Producto>;
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lista de Productos</h2>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var producto in Model)
+            {
+                <tr>
+                    <td>@producto.Descripcion</td>
+                    <td>@producto.Precio.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
