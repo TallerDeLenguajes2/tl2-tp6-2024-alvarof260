@@ -1,8 +1,8 @@
+@model List<Producto>
+
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Lista de Productos";
 }
-@using TP6MVC.Models;
-@model List<Producto>;
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Lista de Productos</h2>
@@ -12,6 +12,7 @@
             <tr>
                 <th scope="col">Descripción</th>
                 <th scope="col">Precio</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -19,9 +20,18 @@
             {
                 <tr>
                     <td>@producto.Descripcion</td>
-                    <td>@producto.Precio.ToString("C")</td>
+                    <td>@producto.Precio.ToString("C")</td> <!-- Muestra el precio en formato moneda -->
+                    <td>
+                        <a asp-action="Update" asp-route-id="@producto.IdProducto" class="btn btn-sm btn-warning">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@producto.IdProducto"
+                            class="btn btn-sm btn-danger">Eliminar</a>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <div class="text-center mt-4">
+        <a asp-action="Create" class="btn btn-success">Crear Nuevo Producto</a>
+    </div>
 </div>

@@ -21,10 +21,49 @@ namespace tl2_tp6_2024_alvarof260.Controllers
             _productoRepository = new ProductoRepository(@"Data Source=db\Tienda.db;Cache=Shared");
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             List<Producto> productos = _productoRepository.GetAll();
             return View(productos);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new Producto());
+        }
+
+        [HttpPost]
+        public IActionResult Create(Producto producto)
+        {
+            _productoRepository.Create(producto);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var producto = _productoRepository.GetById(id);
+            return View(producto);
+        }
+
+        // Acción POST para actualizar el producto en la base de datos
+        [HttpPost]
+        public IActionResult Update(int id, Producto producto)
+        {
+            if (ModelState.IsValid)
+            {
+                _productoRepository.Update(id, producto);
+                return RedirectToAction("Index");
+            }
+            return View(producto);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _productoRepository.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

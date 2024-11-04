@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Crear Producto";
+}
+@using TP6MVC.Models
+@model Producto
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Producto</h2>
+
+    <form asp-controller="Producto" asp-action="Create" class="border p-4 shadow-sm rounded">
+        <div class="form-group mb-3">
+            <label asp-for="Descripcion" class="form-label fw-bold">Descripción</label>
+            <input asp-for="Descripcion" class="form-control" placeholder="Ingrese la descripción del producto" />
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Precio" class="form-label fw-bold">Precio</label>
+            <input asp-for="Precio" class="form-control" placeholder="Ingrese el precio del producto" />
+            <span asp-validation-for="Precio" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+</div>
