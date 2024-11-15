@@ -30,6 +30,19 @@ namespace tl2_tp6_2024_alvarof260.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new Presupuesto());
+        }
+
+        [HttpPost]
+        public IActionResult Create(Presupuesto presupuesto)
+        {
+            _presupuestoRepository.Create(presupuesto);
+            return RedirectToAction("Index");
+        }
+
 
 
     }

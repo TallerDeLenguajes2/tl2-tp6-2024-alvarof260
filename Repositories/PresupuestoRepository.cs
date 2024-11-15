@@ -140,10 +140,7 @@ namespace TP6MVC.Repositories
         private List<PresupuestoDetalle> GetPresupuestoDetalles(int id)
         {
             List<PresupuestoDetalle> presupuestosDetalles = new List<PresupuestoDetalle>();
-            string query = @"SELECT p.idProducto, p.Descripcion, p.Precio, d.Cantidad
-                     FROM PresupuestosDetalle d
-                     JOIN Productos p ON d.idProducto = p.idProducto
-                     WHERE d.idPresupuesto = @idPresupuesto;";
+            string query = @"SELECT COALESCE(pr.idProducto, '-') AS idProducto, COALESCE(pr.Descripcion, '-') AS descripcion, COALESCE(pr.Precio, '-') AS precio, COALESCE(pd.Cantidad, '-') AS cantida FROM Presupuestos p LEFT JOIN PresupuestosDetalle pd ON p.idPresupuesto = pd.idPresupuesto LEFT JOIN Productos pr ON pd.idProducto = pr.idProducto WHERE p.idPresupuesto = @idPresupuesto;";
             using (SqliteConnection connection = new SqliteConnection(_stringConnection))
             {
                 connection.Open();

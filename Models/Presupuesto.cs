@@ -18,6 +18,8 @@ namespace TP6MVC.Models
             this.NombreDestinario = nombreDestinario;
         }
 
+        public Presupuesto() {}
+
         // Método para obtener el monto sin IVA
         public decimal CalcularMontoSinIva()
         {
