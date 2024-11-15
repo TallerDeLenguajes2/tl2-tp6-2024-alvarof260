@@ -43,6 +43,15 @@ namespace tl2_tp6_2024_alvarof260.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            return View(new Presupuesto()); 
+        }
+
+        [HttpPost]
+        public IActionResult Update(int id, Presupuesto)
+
 
 
     }
