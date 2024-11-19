@@ -15,11 +15,13 @@ namespace tl2_tp6_2024_alvarof260.Controllers
     {
         private readonly ILogger<PresupuestoController> _logger;
         private readonly PresupuestoRepository _presupuestoRepository;
+        private readonly ProductoRepository _productoRepository;
 
-       public PresupuestoController(ILogger<PresupuestoController> logger)
+        public PresupuestoController(ILogger<PresupuestoController> logger)
         {
             _logger = logger;
             _presupuestoRepository = new PresupuestoRepository(@"Data Source=db\Tienda.db;Cache=Shared");
+            _productoRepository = new ProductoRepository(@"Data Source=db\Tienda.db;Cache=Shared");
         }
 
         [HttpGet]
@@ -46,13 +48,37 @@ namespace tl2_tp6_2024_alvarof260.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            return View(new Presupuesto()); 
+            var presupuesto = _presupuestoRepository.GetById(id);
+            if (presupuesto == null)
+            {
+                return NotFound("No se encontro el presupuesto.");
+            }
+            List<Producto> productos = _productoRepository.GetAll();
+            ViewData["Productos"] = productos;
+            return View(presupuesto);
         }
 
         [HttpPost]
-        public IActionResult Update(int id, Presupuesto)
+        public IActionResult Update(int id, int productoId, int cantidad)
+        {
+            var presupuesto = _presupuestoRepository.GetById(id);
+            var producto = _productoRepository.GetById(productoId);
 
+            if (presupuesto == null || producto == null)
+            {
+                return NotFound();
+            }
 
+            // Agregar producto al presupuesto
+            _presupuestoRepository.Update(id, producto, cantidad);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _presupuestoRepository.Delete(id);
+            return RedirectToAction("Index");
+        }
 
     }
 

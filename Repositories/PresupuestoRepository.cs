@@ -125,7 +125,7 @@ namespace TP6MVC.Repositories
             {
                 connection.Open();
 
-                SqliteCommand commandDetalles = new SqliteCommand(@"DELETE FROM PresupuestoDetalles 
+                SqliteCommand commandDetalles = new SqliteCommand(@"DELETE FROM PresupuestosDetalle 
                                                                 WHERE idPresupuesto = @idPresupuesto;", connection);
                 commandDetalles.Parameters.Add(new SqliteParameter("@idPresupuesto", id));
                 commandDetalles.ExecuteNonQuery();
@@ -137,6 +137,7 @@ namespace TP6MVC.Repositories
                 connection.Close();
             }
         }
+
         private List<PresupuestoDetalle> GetPresupuestoDetalles(int id)
         {
             List<PresupuestoDetalle> presupuestosDetalles = new List<PresupuestoDetalle>();
