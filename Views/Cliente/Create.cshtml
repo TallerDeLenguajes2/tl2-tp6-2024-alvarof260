@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Crear Cliente";
+}
+
+@model Cliente
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Cliente</h2>
+
+    <form asp-controller="Cliente" asp-action="Create" class="border p-4 shadow-sm rounded">
+        <div class="form-group mb-3">
+            <label asp-for="Nombre" class="form-label fw-bold">Nombre</label>
+            <input asp-for="Nombre" class="form-control" placeholder="Ingrese la descripción del producto" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Email" class="form-label fw-bold">Email</label>
+            <input asp-for="Email" class="form-control" placeholder="Ingrese el precio del producto" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Telefono" class="form-label fw-bold">Telefono</label>
+            <input asp-for="Telefono" class="form-control" placeholder="Ingrese el telefono del cliente" />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+</div>

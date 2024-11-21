@@ -9,9 +9,9 @@
 
     <form asp-controller="Presupuesto" asp-action="Create" class="border p-4 shadow-sm rounded">
         <div class="form-group mb-3">
-            <label asp-for="NombreDestinario" class="form-label fw-bold">Nombre</label>
-            <input asp-for="NombreDestinario" class="form-control" placeholder="Ingrese el nombre del destinario" />
-            <span asp-validation-for="NombreDestinario" class="text-danger"></span>
+            <label asp-for="Cliente.IdCliente" class="form-label fw-bold">Id Cliente</label>
+            <input asp-for="Cliente.IdCliente" class="form-control" placeholder="Ingrese el id del Cliente" type="number"/>
+            <span asp-validation-for="Cliente.IdCliente" class="text-danger"></span>
         </div>
 
         <div class="text-center">

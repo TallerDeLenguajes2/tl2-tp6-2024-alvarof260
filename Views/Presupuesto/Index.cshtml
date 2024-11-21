@@ -36,12 +36,13 @@
                     if (!tieneProductos)
                     {
                         <tr>
-                            <td class="align-middle text-center">@presupuesto.NombreDestinario</td>
+                            <td class="align-middle text-center">@presupuesto.Cliente.Nombre</td>
                             <td colspan="4" class="text-center">-</td>
                             <td class="align-middle text-center">
-                                <a asp-action="Update" asp-route-id="@presupuesto.IdPresupuesto" class="btn btn-sm btn-warning">Editar</a>
-                                <a asp-action="Delete" asp-route-id="@presupuesto.IdPresupuesto"
-                                   class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este presupuesto?');">Eliminar</a>
+                                <a asp-action="Update" asp-route-id="@presupuesto.IdPresupuesto"
+                                    class="btn btn-sm btn-warning">Editar</a>
+                                <a asp-action="Delete" asp-route-id="@presupuesto.IdPresupuesto" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('¿Está seguro de eliminar este presupuesto?');">Eliminar</a>
                             </td>
                         </tr>
                     }
@@ -53,7 +54,7 @@
                             <tr>
                                 @if (isFirstRow)
                                 {
-                                    <td rowspan="@detalleCount" class="align-middle text-center">@presupuesto.NombreDestinario</td>
+                                    <td rowspan="@detalleCount" class="align-middle text-center">@presupuesto.Cliente.Nombre</td>
                                 }
 
                                 <td class="align-middle">@detalle.Producto.Descripcion</td>
@@ -64,9 +65,10 @@
                                     <td rowspan="@detalleCount" class="align-middle text-center">@presupuesto.CalcularMontoSinIva()</td>
                                     <td rowspan="@detalleCount" class="align-middle text-center">@presupuesto.CalcularMontoConIva()</td>
                                     <td rowspan="@detalleCount" class="align-middle text-center">
-                                        <a asp-action="Update" asp-route-id="@presupuesto.IdPresupuesto" class="btn btn-sm btn-warning">Editar</a>
-                                        <a asp-action="Delete" asp-route-id="@presupuesto.IdPresupuesto"
-                                           class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este presupuesto?');">Eliminar</a>
+                                        <a asp-action="Update" asp-route-id="@presupuesto.IdPresupuesto"
+                                            class="btn btn-sm btn-warning">Editar</a>
+                                        <a asp-action="Delete" asp-route-id="@presupuesto.IdPresupuesto" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('¿Está seguro de eliminar este presupuesto?');">Eliminar</a>
                                     </td>
                                     isFirstRow = false;
                                 }
@@ -77,8 +79,8 @@
             </tbody>
         </table>
 
-        <div class="text-center mt-4">
-            <a asp-action="Create" class="btn btn-success">Crear Nuevo Presupuesto</a>
-        </div>
     }
+    <div class="text-center mt-4">
+        <a asp-action="Create" class="btn btn-success">Crear Nuevo Presupuesto</a>
+    </div>
 </div>

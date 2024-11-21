@@ -9,11 +9,11 @@ namespace TP6MVC.Repositories
 {
     public interface IPresupuestoRepository
     {
-        List<Presupuesto> GetAll();
-        Presupuesto GetById(int id);
-        void Create(Presupuesto presupuesto);
-        void Update(int id, Producto producto, int cantidad);
-        void Delete(int id);
+        public List<Presupuesto> GetAll();
+        public Presupuesto GetById(int id);
+        public void Create(Presupuesto presupuesto);
+        public void Update(int id, Producto producto, int cantidad);
+        public void Delete(int id);
     }
 
     public class PresupuestoRepository : IPresupuestoRepository
@@ -28,7 +28,9 @@ namespace TP6MVC.Repositories
         public List<Presupuesto> GetAll()
         {
             List<Presupuesto> presupuestos = new List<Presupuesto>();
-            string query = @"SELECT idPresupuesto, NombreDestinatario FROM Presupuestos;";
+            string query = @"SELECT p.idPresupuesto, c.idCliente, c.Nombre, c.Email, c.Telefono 
+                         FROM Presupuestos p
+                         JOIN Clientes c ON p.idCliente = c.idCliente";
             using (SqliteConnection connection = new SqliteConnection(_stringConnection))
             {
                 connection.Open();
@@ -39,9 +41,13 @@ namespace TP6MVC.Repositories
                     while (reader.Read())
                     {
                         int idPresupuesto = reader.GetInt32(0);
-                        string nombreDestinatario = reader.GetString(1);
+                        int idCliente = reader.GetInt32(1);
+                        string nombre = reader.GetString(2);
+                        string email = reader.GetString(3);
+                        string telefono = reader.GetString(4);
 
-                        Presupuesto presupuesto = new Presupuesto(idPresupuesto, nombreDestinatario);
+                        Cliente cliente = new Cliente(idCliente, nombre, email, telefono); 
+                        Presupuesto presupuesto = new Presupuesto(idPresupuesto, cliente);
                         presupuesto.Detalle = GetPresupuestoDetalles(idPresupuesto);
                         presupuestos.Add(presupuesto);
                     }
@@ -54,8 +60,9 @@ namespace TP6MVC.Repositories
         public Presupuesto GetById(int id)
         {
             Presupuesto presupuesto = null;
-            string query = @"SELECT idPresupuesto, NombreDestinatario 
-                         FROM Presupuestos 
+            string query = @"SELECT p.idPresupuesto, c.idCliente, c.Nombre, c.Email, c.Telefono 
+                         FROM Presupuestos p
+                         JOIN Clientes c ON p.idCliente = c.idCliente
                          WHERE idPresupuesto = @id";
 
             using (SqliteConnection connection = new SqliteConnection(_stringConnection))
@@ -69,10 +76,14 @@ namespace TP6MVC.Repositories
                     if (reader.Read())
                     {
                         int idPresupuesto = reader.GetInt32(0);
-                        string nombreDestinatario = reader.GetString(1);
-                        presupuesto = new Presupuesto(idPresupuesto, nombreDestinatario);
-                        presupuesto.Detalle = GetPresupuestoDetalles(idPresupuesto);
+                        int idCliente = reader.GetInt32(1);
+                        string nombre = reader.GetString(2);
+                        string email = reader.GetString(3);
+                        string telefono = reader.GetString(4);
 
+                        Cliente cliente = new Cliente(idCliente, nombre, email, telefono); 
+                        presupuesto = new Presupuesto(idPresupuesto, cliente);
+                        presupuesto.Detalle = GetPresupuestoDetalles(idPresupuesto);
                     }
                 }
                 connection.Close();
@@ -82,15 +93,15 @@ namespace TP6MVC.Repositories
 
         public void Create(Presupuesto presupuesto)
         {
-            string query = @"INSERT INTO Presupuestos (NombreDestinatario, FechaCreacion) 
-                     VALUES (@NombreDestinatario, @FechaCreacion);";
+            string query = @"INSERT INTO Presupuestos (idCliente, FechaCreacion) 
+                     VALUES (@idCliente, @FechaCreacion);";
 
             using (SqliteConnection connection = new SqliteConnection(_stringConnection))
             {
                 connection.Open();
 
                 SqliteCommand command = new SqliteCommand(query, connection);
-                command.Parameters.Add(new SqliteParameter("@NombreDestinatario", presupuesto.NombreDestinario));
+                command.Parameters.Add(new SqliteParameter("@idCliente", presupuesto.Cliente.IdCliente));
                 command.Parameters.Add(new SqliteParameter("@FechaCreacion", "2024-10-27"));
 
                 command.ExecuteNonQuery();

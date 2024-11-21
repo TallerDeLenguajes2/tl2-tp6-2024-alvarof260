@@ -4,18 +4,18 @@ namespace TP6MVC.Models
     public class Presupuesto
     {
         private int idPresupuesto;
-        private string nombreDestinario;
+        private Cliente cliente;
         private List<PresupuestoDetalle> detalle = new List<PresupuestoDetalle>(); // Inicialización de la lista
         private const double IVA = 0.21;
 
         public int IdPresupuesto { get => idPresupuesto; set => idPresupuesto = value; }
-        public string NombreDestinario { get => nombreDestinario; set => nombreDestinario = value; }
         public List<PresupuestoDetalle> Detalle { get => detalle; set => detalle = value; }
+        public Cliente Cliente { get => cliente; set => cliente = value; }
 
-        public Presupuesto(int idPresupuesto, string nombreDestinario)
+        public Presupuesto(int idPresupuesto, Cliente cliente)
         {
             this.IdPresupuesto = idPresupuesto;
-            this.NombreDestinario = nombreDestinario;
+            this.cliente = cliente;
         }
 
         public Presupuesto() {}
