@@ -37,6 +37,10 @@ namespace tl2_tp6_2024_alvarof260.Controllers
         [HttpPost]
         public IActionResult Create(Producto producto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(producto);
+            }
             _productoRepository.Create(producto);
             return RedirectToAction("Index");
         }
