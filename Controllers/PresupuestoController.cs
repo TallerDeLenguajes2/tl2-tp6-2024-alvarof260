@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TP6MVC.Models;
 using TP6MVC.Repositories;
+using TP6MVC.ViewModels;
 
 
 namespace tl2_tp6_2024_alvarof260.Controllers
@@ -16,12 +17,14 @@ namespace tl2_tp6_2024_alvarof260.Controllers
         private readonly ILogger<PresupuestoController> _logger;
         private readonly PresupuestoRepository _presupuestoRepository;
         private readonly ProductoRepository _productoRepository;
+        private readonly ClienteRepository _clienteRepository;
 
         public PresupuestoController(ILogger<PresupuestoController> logger)
         {
             _logger = logger;
             _presupuestoRepository = new PresupuestoRepository(@"Data Source=db\Tienda.db;Cache=Shared");
             _productoRepository = new ProductoRepository(@"Data Source=db\Tienda.db;Cache=Shared");
+            _clienteRepository = new ClienteRepository(@"Data Source=db\Tienda.db;Cache=Shared");
         }
 
         [HttpGet]
@@ -35,14 +38,27 @@ namespace tl2_tp6_2024_alvarof260.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new Presupuesto());
+            var viewModel = new CreatePresupuestoViewModel();
+            viewModel.Clientes = _clienteRepository.GetAll();
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(Presupuesto presupuesto)
+        public IActionResult Create(CreatePresupuestoViewModel viewModel)
         {
-            _presupuestoRepository.Create(presupuesto);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                // Lógica para crear el presupuesto con el cliente seleccionado
+                var cliente = _clienteRepository.GetById(viewModel.IdCliente);
+                var presupuesto = new Presupuesto(0, cliente);
+                _presupuestoRepository.Create(presupuesto);
+
+                return RedirectToAction("Index");
+            }
+
+            // Volver a cargar los clientes si hay un error
+            viewModel.Clientes = _clienteRepository.GetAll();
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -54,23 +70,24 @@ namespace tl2_tp6_2024_alvarof260.Controllers
                 return NotFound("No se encontro el presupuesto.");
             }
             List<Producto> productos = _productoRepository.GetAll();
-            ViewData["Productos"] = productos;
-            return View(presupuesto);
+            UpdatePresupuestoViewModel viewModel = new UpdatePresupuestoViewModel();
+            viewModel.Presupuesto = presupuesto;
+            viewModel.Productos = productos;
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Update(int id, int productoId, int cantidad)
+        public IActionResult Update(UpdatePresupuestoViewModel viewModel)
         {
-            var presupuesto = _presupuestoRepository.GetById(id);
-            var producto = _productoRepository.GetById(productoId);
+            var producto = _productoRepository.GetById(viewModel.ProductoSeleccionado.ProductoId);
 
-            if (presupuesto == null || producto == null)
+            if (viewModel.Presupuesto == null || producto == null)
             {
                 return NotFound();
             }
 
             // Agregar producto al presupuesto
-            _presupuestoRepository.Update(id, producto, cantidad);
+            _presupuestoRepository.Update(viewModel.Presupuesto.IdPresupuesto, producto, viewModel.ProductoSeleccionado.Cantidad);
             return RedirectToAction("Index");
         }
 

@@ -1,17 +1,19 @@
 @{
     ViewData["Title"] = "Crear Presupuesto";
 }
-@using TP6MVC.Models
-@model Presupuesto
+@model TP6MVC.ViewModels.CreatePresupuestoViewModel
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Crear Presupuesto</h2>
 
-    <form asp-controller="Presupuesto" asp-action="Create" class="border p-4 shadow-sm rounded">
+    <form asp-controller="Presupuesto" asp-action="Create" method="post" class="border p-4 shadow-sm rounded">
         <div class="form-group mb-3">
-            <label asp-for="Cliente.IdCliente" class="form-label fw-bold">Id Cliente</label>
-            <input asp-for="Cliente.IdCliente" class="form-control" placeholder="Ingrese el id del Cliente" type="number"/>
-            <span asp-validation-for="Cliente.IdCliente" class="text-danger"></span>
+            <label for="IdCliente" class="form-label fw-bold">Seleccionar Cliente</label>
+            <select asp-for="IdCliente" asp-items="@(new SelectList(Model.Clientes, "IdCliente", "Nombre"))" 
+                    class="form-select" id="IdCliente">
+                <option value="">Seleccione un cliente</option>
+            </select>
+            <span asp-validation-for="IdCliente" class="text-danger"></span>
         </div>
 
         <div class="text-center">
@@ -19,3 +21,4 @@
         </div>
     </form>
 </div>
+

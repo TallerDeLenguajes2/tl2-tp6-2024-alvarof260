@@ -1,16 +1,15 @@
 @{
     ViewData["Title"] = "Agregar producto a presupuesto";
-    var productos = ViewData["Productos"] as List<Producto>;
 }
-@using TP6MVC.Models
-@model Presupuesto 
+@using TP6MVC.ViewModels
+@model UpdatePresupuestoViewModel
 
 
-<form asp-action="Update" asp-route-id="@Model.IdPresupuesto" method="post">
+<form asp-action="Update" asp-route-id="@Model.Presupuesto.IdPresupuesto" method="post">
     <div class="form-group">
         <label for="productoId">Seleccionar Producto:</label>
         <select id="productoId" name="productoId" class="form-control">
-            @foreach (var producto in productos)
+            @foreach (var producto in @Model.Productos)
             {
                 <option value="@producto.IdProducto">@producto.Descripcion - $@producto.Precio</option>
             }
